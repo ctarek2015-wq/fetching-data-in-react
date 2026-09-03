@@ -1,15 +1,29 @@
 import "./App.css";
+import WeatherSearch from "./components/WeatherSearch/WeatherSearch";
 import * as weatherService from "./services/weatherService";
+import WeatherDetails from "./components/WeatherDetails/WeatherDetails";
+
+import { useState } from "react";
 
 function App() {
-  const fetchData = async () => {
-    const data = await weatherService.show("tokyo");
-    console.log(data);
+  const [weather, setWeather] = useState({});
+
+  const fetchData = async (city) => {
+    const data = await weatherService.show(city);
+    const weatherCondition = {
+      location: data.location.name,
+      temperature: data.current.temp_c,
+      condition: data.current.condition.text,
+      icon: data.current.condition.icon,
+    };
+
+    setWeather(weatherCondition);
   };
   return (
     <main>
       <h1>Weather API!</h1>
-      <button onClick={fetchData}>Get Weather</button>
+      <WeatherSearch fetchData={fetchData} />
+      <WeatherDetails weather={weather} />
     </main>
   );
 }
