@@ -1,10 +1,12 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-require("dotenv").config();
-app.use(cors());
 const morgan = require("morgan");
+require("dotenv").config();
+
 app.use(morgan("dev"));
+app.use(cors());
+
 // Define a BASE_URL that includes the API_KEY:
 const BASE_URL = `http://api.weatherapi.com/v1/current.json?key=${process.env.API_KEY}`;
 
