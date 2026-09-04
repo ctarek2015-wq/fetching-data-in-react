@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 
 function App() {
   const [weather, setWeather] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDefault = async (city) => {
@@ -19,8 +20,9 @@ function App() {
       };
 
       setWeather(weatherCondition);
+      setIsLoading(false);
     };
-    fetchData("manama");
+    fetchDefault("manama");
   }, []);
   useEffect(() => {
     console.log("weather has updated", weather);
@@ -36,14 +38,15 @@ function App() {
     };
 
     setWeather(weatherCondition);
+    setIsLoading(false);
   };
-  if (!weather.condition && !weather.location && !weather.temperature) {
+  if (isLoading) {
     return <h1>LOADING.....</h1>;
   }
   return (
     <main>
       <h1>Weather API!</h1>
-      <WeatherSearch fetchData={fetchData} />
+      <WeatherSearch fetchData={fetchData} setIsLoading={setIsLoading} />
       <WeatherDetails weather={weather} />
     </main>
   );

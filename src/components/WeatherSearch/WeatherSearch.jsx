@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 
-const WeatherSearch = (props) => {
+const WeatherSearch = ({ setIsLoading, fetchData }) => {
   const [city, setCity] = useState("");
 
   const handleSubmit = (e) => {
+    setIsLoading(true);
     e.preventDefault();
-    props.fetchData(city);
+    fetchData(city);
     setCity("");
   };
 
